@@ -155,7 +155,7 @@
                     <p>TensorFlow, PyTorch, LLMs</p>
                 </div>
                 <div class="about__location">
-                    <img src="https://chel.qzz.io/assets/img/world_map.png" alt="World map">
+                    <img src="https://chel.qzz.io/uploads/world_map.png" alt="World map">
                     <div class="about__location-overlay">
                         <span class="about__location-text">
                             <span class="about__location-dot"></span>
@@ -403,7 +403,7 @@
 
                             <template x-if="activeProject && activeProject.simulation_type === 'drone'">
                                 <div class="w-full h-full relative overflow-hidden bg-black" x-data="{ pitch: 0, roll: 0, alt: 450, spd: 45 }">
-                                    <img src="https://chel.qzz.io/assets/img/drone_flight.png" class="absolute inset-0 w-full h-full object-cover opacity-40 grayscale mix-blend-overlay" alt="">
+                                    <img src="https://chel.qzz.io/uploads/drone_flight.png" class="absolute inset-0 w-full h-full object-cover opacity-40 grayscale mix-blend-overlay" alt="">
                                     <div class="absolute inset-0 p-8 flex flex-col justify-between font-mono text-xs text-green-500" x-init="setInterval(() => {
                                         pitch = (Math.sin(Date.now()/1000)*10).toFixed(1);
                                         roll = (Math.cos(Date.now()/1500)*5).toFixed(1);
@@ -470,7 +470,7 @@
                                         setInterval(() => { logs.push('[' + new Date().toLocaleTimeString() + '] SRC:192.168.1.' + Math.floor(Math.random()*255) + ' > BLOCKED'); if (logs.length > 6) logs.shift(); }, 1200);
                                      ">
                                     <div class="absolute inset-0 opacity-20">
-                                        <img src="https://chel.qzz.io/assets/img/world_map.png" class="w-full h-full object-cover grayscale invert" alt="">
+                                        <img src="https://chel.qzz.io/uploads/world_map.png" class="w-full h-full object-cover grayscale invert" alt="">
                                     </div>
                                     <template x-for="attack in attacks" :key="attack.id">
                                         <div class="absolute w-2 h-2 bg-red-500 rounded-full animate-ping" :style="'left:' + attack.x + '%;top:' + attack.y + '%'"></div>
@@ -676,7 +676,7 @@
                 if (!path) return 'https://placehold.co/600x400/F4EFE6/5C5650';
                 if (path.startsWith('http')) return path;
                 if (path.startsWith('assets/')) return 'https://chel.qzz.io/' + path;
-                return 'https://chel.qzz.io/assets/img/' + path;
+                return 'https://chel.qzz.io/uploads/' + path;
             },
             getTags(tagsString) {
                 if (!tagsString) return [];
