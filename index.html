@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title x-text="seo.meta_title || '{{SEO_TITLE}}'">{{SEO_TITLE}}</title>
+    <meta name="description" :content="seo.meta_description || '{{SEO_DESC}}'" content="{{SEO_DESC}}">
+    <meta name="keywords" :content="seo.meta_keywords || '{{SEO_KEYWORDS}}'" content="{{SEO_KEYWORDS}}">
+    <meta property="og:title" content="{{OG_TITLE}}">
+    <meta property="og:description" content="{{OG_DESC}}">
+    <meta property="og:type" content="website">
+    <script type="application/ld+json">
+        {{SEO_SCHEMA}}
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    
+    <style>
+        [x-cloak] { display: none !important; }
+        .loading-screen { position: fixed; inset: 0; background: #050510; z-index: 9999; display: flex; align-items: center; justify-content: center; color: white; transition: opacity 0.5s; font-family: 'Plus Jakarta Sans', sans-serif;}
+    </style>
+</head>
+<body x-data="portfolioApp()" x-init="initData()" x-cloak>
+
+<div class="loading-screen" x-show="!loaded" x-transition.opacity>
+    <div class="animate-pulse" style="display:flex; flex-direction:column; align-items:center; gap: 12px;">
+        <svg width="40" height="40" fill="none" stroke="currentColor" viewBox="0 0 24 24" class="animate-spin"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v2m0 12v2m8-8h-2M6 12H4m13.657-5.657l-1.414 1.414M7.757 16.243l-1.414 1.414M16.243 16.243l1.414 1.414M7.757 7.757L6.343 6.343"/></svg>
+        <span>Initializing System...</span>
+    </div>
+</div>
+
+<div class="ambient" aria-hidden="true">
+    <div class="ambient__blob ambient__blob--1"></div>
+    <div class="ambient__blob ambient__blob--2"></div>
+    <div class="ambient__grain"></div>
+</div>
+
+<!-- Navigation -->
+<header class="nav">
+    <div class="wrapper nav__inner">
+        <a href="#" class="nav__logo">Chel<span>.dev</span></a>
+
+        <ul class="nav__links">
+            <li><a href="#about" class="nav__link">About</a></li>
+            <li><a href="#experience" class="nav__link">Experience</a></li>
+            <li><a href="#skills" class="nav__link">Skills</a></li>
+            <li><a href="#projects" class="nav__link">Projects</a></li>
+        </ul>
+
+        <a href="#contact" class="nav__cta">Get in touch</a>
+
+        <button class="nav__toggle" aria-label="Toggle menu">
+            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+            </svg>
+        </button>
+    </div>
+
+    <nav class="nav__mobile wrapper">
+        <a href="#about">About</a>
+        <a href="#experience">Experience</a>
+        <a href="#skills">Skills</a>
+        <a href="#projects">Projects</a>
+        <a href="#contact">Get in touch</a>
+    </nav>
+</header>
+
+<main>
+    <!-- Hero -->
+    <section class="hero">
+        <div class="wrapper hero__grid">
+            <div class="reveal">
+                <div class="hero__badge">
+                    <span class="hero__badge-dot"></span>
+                    Available for new opportunities
+                </div>
+
+                <h1 class="hero__title">
+                    Hello, I'm<br>
+                    <em>Chel</em>
+                </h1>
+
+                <div class="hero__role">
+                    <span id="typewriter"></span><span class="hero__role-cursor"></span>
+                </div>
+
+                <p class="hero__tagline" x-text="settings.tagline || 'Engineering the future with code and cognition.'"></p>
+
+                <div class="hero__actions">
+                    <a href="#projects" class="btn btn--primary">
+                        View my work
+                        <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+                    </a>
+                    <a :href="settings.social_github || '#'" target="_blank" rel="noopener" class="btn btn--ghost">
+                        <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.379.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.161 22 16.416 22 12c0-5.523-4.477-10-10-10z" /></svg>
+                        GitHub
+                    </a>
+                </div>
+            </div>
+
+            <div class="hero__visual reveal">
+                <div class="hero__card">
+                    <div class="hero__avatar-ring">
+                        <template x-if="settings.avatar_image">
+                            <img :src="getAssetUrl(settings.avatar_image)" alt="Avatar">
+                        </template>
+                        <template x-if="!settings.avatar_image">
+                            <img src="assets/img/profile.jpeg" alt="Avatar">
+                        </template>
+                    </div>
+                    <p style="text-align:center;color:var(--ink-muted);font-size:14px;margin:0 0 8px;" x-text="settings.site_name || 'Chel'"></p>
+                    <p style="text-align:center;color:var(--forest);font-size:13px;font-weight:600;margin:0;">Multidisciplinary Technologist</p>
+                    <div class="hero__stats">
+                        <div class="hero__stat">
+                            <div class="hero__stat-value">5+</div>
+                            <div class="hero__stat-label">Years</div>
+                        </div>
+                        <div class="hero__stat">
+                            <div class="hero__stat-value">50+</div>
+                            <div class="hero__stat-label">Projects</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Marquee -->
+    <div class="marquee-section" aria-hidden="true">
+        <div class="marquee">
+            <template x-for="(item, i) in marqueeItems" :key="i">
+                <span class="marquee__item" x-text="item"></span>
+            </template>
+        </div>
+    </div>
+
+    <!-- About -->
+    <section id="about" class="about">
+        <div class="wrapper about__grid">
+            <div class="about__cards reveal">
+                <div class="about__card">
+                    <div class="about__card-icon about__card-icon--dev">⚡</div>
+                    <h3>Full Stack</h3>
+                    <p>React, Node, Laravel, Python</p>
+                </div>
+                <div class="about__card">
+                    <div class="about__card-icon about__card-icon--ai">🧠</div>
+                    <h3>AI &amp; ML</h3>
+                    <p>TensorFlow, PyTorch, LLMs</p>
+                </div>
+                <div class="about__location">
+                    <img src="https://chel.qzz.io/uploads/world_map.png" alt="World map">
+                    <div class="about__location-overlay">
+                        <span class="about__location-text">
+                            <span class="about__location-dot"></span>
+                            Based in Indonesia
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="about__text reveal">
+                <span class="section-label">01 — About</span>
+                <h2 class="section-title">Building systems that bridge the physical and digital world</h2>
+                <p>I engineer ecosystems. Whether it's securing a smart home network, optimizing a drone's flight path, or fine-tuning a Large Language Model, I thrive on solving complex, real-world problems.</p>
+                <p>From embedded hardware to cloud-scale AI — my work spans the full technology stack, always with a focus on craft, clarity, and impact.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience -->
+    <section id="experience" class="experience">
+        <div class="wrapper">
+            <div class="reveal">
+                <span class="section-label">02 — Experience</span>
+                <h2 class="section-title">Career trajectory</h2>
+                <p class="section-subtitle">A journey through AI, security, data science, and full-stack development.</p>
+            </div>
+
+            <div class="experience__list">
+                <template x-for="(exp, idx) in experience" :key="idx">
+                    <article class="experience__item reveal">
+                        <time class="experience__period" x-text="exp.period"></time>
+                        <div>
+                            <h3 class="experience__role" x-text="exp.role"></h3>
+                            <p class="experience__company" x-text="exp.company"></p>
+                        </div>
+                        <p class="experience__desc" x-text="exp.description"></p>
+                    </article>
+                </template>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills -->
+    <section id="skills" class="skills">
+        <div class="wrapper">
+            <div class="reveal" style="text-align:center;">
+                <span class="section-label" style="justify-content:center;">03 — Skills</span>
+                <h2 class="section-title">Technical arsenal</h2>
+                <p class="section-subtitle" style="margin-inline:auto;">Proficiency across development, AI, and design disciplines.</p>
+            </div>
+
+            <div class="skills__grid">
+                <template x-for="(items, category) in groupedSkills" :key="category">
+                    <div class="skills__category reveal">
+                        <h3 class="skills__category-title" x-text="category"></h3>
+                        <template x-for="(skill, i) in items" :key="i">
+                            <div class="skill-item">
+                                <div class="skill-item__header">
+                                    <span class="skill-item__name" x-text="skill.name"></span>
+                                    <span class="skill-item__pct" x-text="skill.percentage + '%'"></span>
+                                </div>
+                                <div class="skill-item__bar">
+                                    <div class="skill-item__fill" :style="'--pct:' + skill.percentage + '%; width:' + skill.percentage + '%;'"></div>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                </template>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects -->
+    <section id="projects" class="projects">
+        <div class="wrapper">
+            <div class="reveal" style="text-align:center;">
+                <span class="section-label" style="justify-content:center;">04 — Projects</span>
+                <h2 class="section-title">Selected works</h2>
+                <p class="section-subtitle" style="margin-inline:auto;">Interactive demos of real projects — click to explore simulations.</p>
+            </div>
+
+            <div class="projects__grid">
+                <template x-for="(project, i) in projects" :key="i">
+                    <article class="project-card reveal" @click="openProject(project)">
+                        <div class="project-card__image">
+                            <img :src="getAssetUrl(project.image_url)" :alt="project.title" loading="lazy">
+                            <div class="project-card__overlay">
+                                <button class="project-card__view-btn" type="button">View simulation</button>
+                            </div>
+                        </div>
+                        <div class="project-card__body">
+                            <div class="project-card__tags">
+                                <template x-for="(tag, idx) in getTags(project.tags)" :key="idx">
+                                    <span class="project-card__tag" x-text="tag"></span>
+                                </template>
+                            </div>
+                            <h3 class="project-card__title" x-text="project.title"></h3>
+                            <p class="project-card__desc" x-text="project.description"></p>
+                        </div>
+                    </article>
+                </template>
+            </div>
+        </div>
+
+        <!-- Project Modal -->
+        <div x-show="activeProject" x-cloak
+             class="modal-overlay"
+             x-transition:enter="transition ease-out duration-300"
+             x-transition:enter-start="opacity-0"
+             x-transition:enter-end="opacity-100"
+             x-transition:leave="transition ease-in duration-200"
+             x-transition:leave-start="opacity-100"
+             x-transition:leave-end="opacity-0"
+             @keydown.escape.window="closeProject()">
+
+            <div class="modal" @click.outside="closeProject()">
+                <div class="modal__header">
+                    <div class="modal__title-bar">
+                        <div class="modal__dots">
+                            <span class="modal__dot modal__dot--red"></span>
+                            <span class="modal__dot modal__dot--yellow"></span>
+                            <span class="modal__dot modal__dot--green"></span>
+                        </div>
+                        <span x-text="activeProject ? 'chel ~ ' + activeProject.title.toLowerCase().replace(/ /g, '-') : ''"></span>
+                    </div>
+                    <button class="modal__close" @click="closeProject()" aria-label="Close">
+                        <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                    </button>
+                </div>
+
+                <div class="modal__body">
+                    <div x-show="simulating" class="modal__loader">
+                        <div>&gt; SYSTEM_INIT: <span x-text="Math.round(progress)"></span>%</div>
+                        <div class="modal__loader-bar">
+                            <div class="modal__loader-fill" :style="'width:' + progress + '%'"></div>
+                        </div>
+                        <div style="font-size:11px;color:#64748b;margin-top:12px;">
+                            <div x-show="progress > 10">&gt; Loading neural weights...</div>
+                            <div x-show="progress > 40">&gt; Establishing secure handshake...</div>
+                            <div x-show="progress > 70">&gt; Rendering environment...</div>
+                        </div>
+                    </div>
+
+                    <div x-show="!simulating" class="relative bg-slate-900 h-64 sm:h-96 w-full overflow-hidden shrink-0">
+                        <div class="relative z-10 w-full h-full bg-[#0b0c15] text-xs md:text-sm">
+
+                            <template x-if="activeProject && activeProject.simulation_type === 'neural'">
+                                <div class="flex h-full" x-data="{
+                                    input: 'The system performance is exceeding expectations.',
+                                    processing: false,
+                                    metrics: { confidence: 0.98, latency: 45, sentiment: 'POSITIVE', polarity: 0.8 },
+                                    analyze() {
+                                        this.processing = true;
+                                        setTimeout(() => {
+                                            this.processing = false;
+                                            const text = this.input.toLowerCase();
+                                            const neg = ['idiot','stupid','bad','worst','hate','terrible','slow','error','fail','ugly','bugs','glitch'];
+                                            const pos = ['good','great','amazing','love','fast','excellent','best','success','smart','beautiful','perfect'];
+                                            let score = 0;
+                                            text.split(/\s+/).forEach(w => {
+                                                if (neg.some(n => w.includes(n))) score -= 1;
+                                                if (pos.some(p => w.includes(p))) score += 1;
+                                            });
+                                            this.metrics.sentiment = score > 0 ? 'POSITIVE' : (score < 0 ? 'NEGATIVE' : 'NEUTRAL');
+                                            this.metrics.polarity = Math.min(1, Math.max(-1, score / (text.split(/\s+/).length || 1))).toFixed(2);
+                                            this.metrics.confidence = (0.7 + Math.random() * 0.29).toFixed(3);
+                                            this.metrics.latency = Math.floor(20 + Math.random() * 50);
+                                        }, 600);
+                                    }
+                                }">
+                                    <div class="w-1/3 border-r border-white/10 p-4 flex flex-col bg-[#0f111a]">
+                                        <div class="text-slate-500 mb-2 uppercase tracking-wider text-[10px]">Input Stream</div>
+                                        <textarea x-model="input" class="w-full bg-black/50 border border-white/10 rounded p-3 text-slate-300 focus:border-sky-500 outline-none mb-4 font-mono text-xs resize-none h-32"></textarea>
+                                        <button @click="analyze()" class="px-4 py-2 bg-sky-600 hover:bg-sky-500 text-white rounded text-xs font-bold transition flex items-center justify-center gap-2">
+                                            <span x-show="processing" class="animate-spin w-3 h-3 border-2 border-white/30 border-t-white rounded-full"></span>
+                                            ANALYZE_TEXT
+                                        </button>
+                                    </div>
+                                    <div class="w-2/3 p-4 bg-[#0b0c15] relative overflow-hidden flex flex-col">
+                                        <div class="flex justify-between items-center mb-4 border-b border-white/5 pb-2">
+                                            <span class="text-sky-400">Analysis Results</span>
+                                            <span class="text-slate-600 text-[10px]">ID: <span class="text-slate-400" x-text="'REQ-' + Math.floor(Math.random()*9999)"></span></span>
+                                        </div>
+                                        <div class="bg-black/50 rounded p-4 font-mono text-xs text-green-400 mb-4 flex-1 overflow-auto border border-white/5 relative">
+                                            <div x-show="processing" class="absolute inset-0 bg-black/80 flex items-center justify-center z-10">
+                                                <span class="text-sky-500 animate-pulse">Processing...</span>
+                                            </div>
+                                            <pre>{
+  "status": "success",
+  "data": {
+    "sentiment": "<span x-text="metrics.sentiment" :class="metrics.sentiment === 'POSITIVE' ? 'text-green-400' : (metrics.sentiment === 'NEGATIVE' ? 'text-red-400' : 'text-yellow-400')"></span>",
+    "polarity": <span x-text="metrics.polarity"></span>,
+    "confidence": <span x-text="metrics.confidence" class="text-blue-400"></span>,
+    "meta": { "latency_ms": <span x-text="metrics.latency" class="text-purple-400"></span>, "chars": <span x-text="input.length"></span> }
+  }
+}</pre>
+                                        </div>
+                                        <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
+                                            <div class="h-full bg-sky-500 transition-all duration-500" :style="'width: ' + (metrics.confidence * 100) + '%'"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </template>
+
+                            <template x-if="activeProject && activeProject.simulation_type === 'smarthome'">
+                                <div class="flex h-full" x-data="{
+                                    devices: [
+                                        {name:'Living Room',temp:24,pwr:120,state:true,icon:'M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z'},
+                                        {name:'Kitchen',temp:22,pwr:450,state:true,icon:'M13 10V3L4 14h7v7l9-11h-7z'},
+                                        {name:'Master Bedroom',temp:21,pwr:15,state:false,icon:'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6'},
+                                        {name:'Garage',temp:18,pwr:0,state:false,icon:'M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2'}
+                                    ],
+                                    totalPwr: 585
+                                }" x-init="setInterval(() => {
+                                    totalPwr = 0;
+                                    devices.forEach(d => {
+                                        if (d.state) {
+                                            d.pwr = Math.max(0, d.pwr + Math.floor(Math.random() * 10 - 5));
+                                            d.temp = (parseFloat(d.temp) + (Math.random() * 0.2 - 0.1)).toFixed(1);
+                                            totalPwr += d.pwr;
+                                        } else { d.pwr = 0; }
+                                    });
+                                }, 1000)">
+                                    <div class="w-48 bg-[#0f111a] border-r border-white/10 flex flex-col p-4">
+                                        <div class="text-[10px] uppercase text-slate-500 font-bold mb-4">System Status</div>
+                                        <div class="text-3xl font-bold text-white mb-1"><span x-text="totalPwr"></span><span class="text-sm text-slate-400 ml-1">W</span></div>
+                                        <div class="text-xs text-green-400">Currently Consuming</div>
+                                    </div>
+                                    <div class="flex-1 p-6 grid grid-cols-2 gap-4 content-start overflow-auto">
+                                        <template x-for="dev in devices">
+                                            <div @click="dev.state = !dev.state" class="bg-[#1a1c2e] border border-white/5 p-4 rounded-xl cursor-pointer hover:border-sky-500/50 transition">
+                                                <div class="flex justify-between items-start mb-4">
+                                                    <div class="p-2 rounded-lg" :class="dev.state ? 'bg-sky-500 text-white' : 'bg-slate-700 text-slate-400'">
+                                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" :d="dev.icon"></path></svg>
+                                                    </div>
+                                                    <span class="text-xs font-bold" :class="dev.state ? 'text-green-400' : 'text-slate-500'" x-text="dev.state ? 'ONLINE' : 'OFFLINE'"></span>
+                                                </div>
+                                                <h3 class="text-slate-200 font-bold text-sm" x-text="dev.name"></h3>
+                                                <div class="mt-2 text-xs text-slate-500">Temp: <span class="text-slate-300" x-text="dev.temp + '°C'"></span></div>
+                                            </div>
+                                        </template>
+                                    </div>
+                                </div>
+                            </template>
+
+                            <template x-if="activeProject && activeProject.simulation_type === 'drone'">
+                                <div class="w-full h-full relative overflow-hidden bg-black" x-data="{ pitch: 0, roll: 0, alt: 450, spd: 45 }">
+                                    <img src="https://chel.qzz.io/uploads/drone_flight.png" class="absolute inset-0 w-full h-full object-cover opacity-40 grayscale mix-blend-overlay" alt="">
+                                    <div class="absolute inset-0 p-8 flex flex-col justify-between font-mono text-xs text-green-500" x-init="setInterval(() => {
+                                        pitch = (Math.sin(Date.now()/1000)*10).toFixed(1);
+                                        roll = (Math.cos(Date.now()/1500)*5).toFixed(1);
+                                        alt = (450 + Math.sin(Date.now()/500)*2).toFixed(0);
+                                        spd = (45 + Math.random()).toFixed(1);
+                                    }, 100)">
+                                        <div class="flex justify-between">
+                                            <div>SYS: <span class="text-white">NOMINAL</span> · GPS: <span class="text-white">LOCKED</span></div>
+                                            <div>MODE: <span class="text-white">AUTONOMOUS</span></div>
+                                        </div>
+                                        <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+                                            <div class="w-64 h-px bg-green-500/50" :style="'transform: rotate(' + roll + 'deg) translateY(' + pitch + 'px)'"></div>
+                                            <div class="w-4 h-4 border border-green-500 rounded-full bg-green-500/20 absolute"></div>
+                                        </div>
+                                        <div class="flex justify-between text-white">
+                                            <div><span class="text-green-500 text-[10px]">ALTITUDE</span><div class="text-3xl font-bold"><span x-text="alt"></span>m</div></div>
+                                            <div class="text-right"><span class="text-green-500 text-[10px]">AIRSPEED</span><div class="text-3xl font-bold"><span x-text="spd"></span>kts</div></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </template>
+
+                            <template x-if="activeProject && activeProject.simulation_type === 'crypto'">
+                                <div class="flex h-full bg-[#131722] text-[#d1d4dc] font-mono text-[10px]" x-data="{ price: 42150.25, lastPrice: 42150, trades: [] }"
+                                     x-init="setInterval(() => {
+                                        lastPrice = price;
+                                        price = price + (Math.random() - 0.5) * 50;
+                                        trades.unshift({p: price.toFixed(2), v: (Math.random()*2).toFixed(4), t: new Date().toLocaleTimeString(), type: Math.random() > 0.5 ? 'buy' : 'sell'});
+                                        if (trades.length > 5) trades.pop();
+                                     }, 500)">
+                                    <div class="flex-1 flex flex-col border-r border-[#2a2e39]">
+                                        <div class="h-10 border-b border-[#2a2e39] flex items-center px-4 gap-4">
+                                            <span class="font-bold text-white">BTCUSDT</span>
+                                            <span :class="price >= lastPrice ? 'text-green-400' : 'text-red-400'" x-text="price.toFixed(2)"></span>
+                                        </div>
+                                        <div class="flex-1 p-4 flex items-end gap-1">
+                                            <template x-for="i in 24">
+                                                <div class="flex-1 rounded-t" :class="Math.random() > 0.5 ? 'bg-[#0ecb81]' : 'bg-[#f6465d]'" :style="'height:' + (30 + Math.random()*60) + '%'"></div>
+                                            </template>
+                                        </div>
+                                        <div class="h-8 border-t border-[#2a2e39] flex items-center px-2 gap-4 overflow-hidden">
+                                            <template x-for="trade in trades">
+                                                <span :class="trade.type === 'buy' ? 'text-[#0ecb81]' : 'text-[#f6465d]'" x-text="trade.p"></span>
+                                            </template>
+                                        </div>
+                                    </div>
+                                    <div class="w-40 p-2">
+                                        <div class="text-slate-500 mb-2">Order Book</div>
+                                        <template x-for="i in 8">
+                                            <div class="flex justify-between text-[#f6465d] py-0.5"><span x-text="(price + i*5).toFixed(1)"></span><span class="text-slate-500" x-text="(Math.random()*2).toFixed(3)"></span></div>
+                                        </template>
+                                        <div class="text-[#0ecb81] text-center py-1" x-text="price.toFixed(1)"></div>
+                                        <template x-for="i in 8">
+                                            <div class="flex justify-between text-[#0ecb81] py-0.5"><span x-text="(price - i*5).toFixed(1)"></span><span class="text-slate-500" x-text="(Math.random()*2).toFixed(3)"></span></div>
+                                        </template>
+                                    </div>
+                                </div>
+                            </template>
+
+                            <template x-if="activeProject && activeProject.simulation_type === 'cyber'">
+                                <div class="h-full flex flex-col bg-[#050510] relative overflow-hidden" x-data="{ attacks: [], logs: [] }"
+                                     x-init="
+                                        setInterval(() => { attacks.push({x: Math.random()*100, y: Math.random()*100, id: Math.random()}); if (attacks.length > 5) attacks.shift(); }, 800);
+                                        setInterval(() => { logs.push('[' + new Date().toLocaleTimeString() + '] SRC:192.168.1.' + Math.floor(Math.random()*255) + ' > BLOCKED'); if (logs.length > 6) logs.shift(); }, 1200);
+                                     ">
+                                    <div class="absolute inset-0 opacity-20">
+                                        <img src="https://chel.qzz.io/uploads/world_map.png" class="w-full h-full object-cover grayscale invert" alt="">
+                                    </div>
+                                    <template x-for="attack in attacks" :key="attack.id">
+                                        <div class="absolute w-2 h-2 bg-red-500 rounded-full animate-ping" :style="'left:' + attack.x + '%;top:' + attack.y + '%'"></div>
+                                    </template>
+                                    <div class="mt-auto h-32 bg-black/80 border-t border-red-500/30 p-4 font-mono text-xs overflow-hidden">
+                                        <div class="text-red-500 text-[10px] mb-2">LIVE THREAT FEEDS</div>
+                                        <template x-for="log in logs"><div class="text-red-400" x-text="log"></div></template>
+                                    </div>
+                                </div>
+                            </template>
+
+                            <template x-if="activeProject && activeProject.simulation_type === 'analytics'">
+                                <div class="flex h-full bg-[#0f172a] text-slate-300" x-data="{ users: 12450 }">
+                                    <div class="w-12 border-r border-slate-700 flex flex-col items-center py-4 bg-slate-900">
+                                        <div class="w-8 h-8 rounded bg-blue-500 flex items-center justify-center text-white font-bold text-xs">N</div>
+                                    </div>
+                                    <div class="flex-1 p-6 flex flex-col gap-4">
+                                        <div class="grid grid-cols-3 gap-4">
+                                            <div class="bg-slate-800 rounded-lg p-3">
+                                                <div class="text-[10px] uppercase text-slate-500">Active Users</div>
+                                                <div class="text-2xl text-white font-bold" x-text="users.toLocaleString()"></div>
+                                            </div>
+                                            <div class="bg-slate-800 rounded-lg p-3">
+                                                <div class="text-[10px] uppercase text-slate-500">Data Processed</div>
+                                                <div class="text-2xl text-white font-bold">845<span class="text-sm text-slate-400">TB</span></div>
+                                            </div>
+                                            <div class="bg-slate-800 rounded-lg p-3">
+                                                <div class="text-[10px] uppercase text-slate-500">Server Health</div>
+                                                <div class="flex gap-1 mt-2">
+                                                    <template x-for="i in 5"><div class="flex-1 h-8 rounded bg-green-500/20 border border-green-500/50"></div></template>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="flex-1 bg-slate-800 rounded-lg p-4 flex items-end gap-1">
+                                            <template x-for="i in 20">
+                                                <div class="flex-1 bg-blue-500/50 rounded-t" :style="'height:' + (20 + Math.random()*70) + '%'"></div>
+                                            </template>
+                                        </div>
+                                    </div>
+                                </div>
+                            </template>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal__footer" x-show="!simulating">
+                    <h2 x-text="activeProject ? activeProject.title : ''"></h2>
+                    <div class="modal__tags" x-show="activeProject">
+                        <template x-for="tag in (activeProject ? getTags(activeProject.tags) : [])" :key="tag">
+                            <span class="modal__tag" x-text="tag"></span>
+                        </template>
+                    </div>
+                    <p x-text="activeProject ? activeProject.description : ''"></p>
+                    <div class="modal__actions">
+                        <a :href="activeProject ? activeProject.link : '#'" class="btn btn--primary" target="_blank">Launch live version</a>
+                        <button class="btn btn--ghost" @click="closeProject()">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="contact">
+        <div class="wrapper contact__inner reveal">
+            <span class="section-label" style="justify-content:center;">05 — Contact</span>
+            <h2 class="section-title">Let's build something remarkable</h2>
+            <p class="section-subtitle" style="margin-inline:auto;">
+                Whether you need an AI architect to build your next LLM or a full-stack developer to bring your idea to life — I'm here.
+            </p>
+
+            <div class="contact__actions">
+                <a :href="settings.social_github || '#'" target="_blank" rel="noopener" class="btn btn--ghost">
+                    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.379.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.161 22 16.416 22 12c0-5.523-4.477-10-10-10z" /></svg>
+                    GitHub
+                </a>
+                <a :href="settings.social_whatsapp || '#'" target="_blank" rel="noopener" class="btn btn--whatsapp">
+                    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.151-.174.2-.298.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.017-1.04 2.481 0 1.461 1.065 2.875 1.213 3.074.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+                    WhatsApp
+                </a>
+                <a :href="settings.social_instagram || '#'" target="_blank" rel="noopener" class="btn btn--instagram">
+                    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                    Instagram
+                </a>
+                <a :href="settings.contact_email ? 'mailto:' + settings.contact_email : '#'" class="btn btn--ghost">
+                    <svg width="20" height="20" viewBox="52 42 88 66" xmlns="http://www.w3.org/2000/svg">
+                        <path fill="#4285f4" d="M58 108h14V74L52 59v43c0 3.32 2.69 6 6 6"/>
+                        <path fill="#34a853" d="M120 108h14c3.32 0 6-2.69 6-6V59l-20 15"/>
+                        <path fill="#fbbc04" d="M120 48v26l20-15v-8c0-7.42-8.47-11.65-14.4-7.2"/>
+                        <path fill="#ea4335" d="M72 74V48l24 18 24-18v26L96 92"/>
+                        <path fill="#c5221f" d="M52 51v8l20 15V48l-5.6-4.2c-5.94-4.45-14.4-.22-14.4 7.2"/>
+                    </svg>
+                    <span x-text="settings.contact_email || 'harselprojrz@gmail.com'"></span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mirrors -->
+    <section class="mirrors">
+        <div class="wrapper">
+            <div class="reveal">
+                <span class="section-label">Network</span>
+                <h2 class="section-title" style="font-size:1.75rem;">Mirror sites</h2>
+            </div>
+            <div class="mirrors__grid">
+                <template x-for="mirror in mirrors" :key="mirror.domain_url">
+                    <a :href="'http://' + mirror.domain_url" class="mirror-link reveal" target="_blank" rel="noopener">
+                        <div class="mirror-link__status">● Online</div>
+                        <div class="mirror-link__domain" x-text="mirror.domain_url"></div>
+                    </a>
+                </template>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<footer class="footer">
+    <div class="wrapper footer__inner">
+        <p class="footer__copy">
+            &copy; <span x-text="new Date().getFullYear()"></span> Chel. Crafted with intention.
+        </p>
+        <ul class="footer__links">
+            <li><a :href="settings.social_github || '#'" target="_blank" rel="noopener">GitHub</a></li>
+            <li><a :href="settings.social_linkedin || '#'" target="_blank" rel="noopener">LinkedIn</a></li>
+            <li><a :href="settings.social_instagram || '#'" target="_blank" rel="noopener">Instagram</a></li>
+            <li><a href="https://chel.qzz.io/admin/login.php">Admin</a></li>
+        </ul>
+    </div>
+</footer>
+
+<script>
+    function portfolioApp() {
+        return {
+            loaded: false,
+            settings: {},
+            seo: {},
+            mirrors: [],
+            experience: [],
+            skills: [],
+            projects: [],
+            groupedSkills: {},
+            skillNames: [],
+            marqueeItems: [],
+            activeProject: null,
+            simulating: false,
+            progress: 0,
+            
+            async initData() {
+                const domain = window.location.hostname;
+                const apiUrl = 'https://chel.qzz.io/api/index.php';
+                
+                try {
+                    const resSettings = await fetch(apiUrl + '?endpoint=settings&domain=' + domain);
+                    const dataSettings = await resSettings.json();
+                    if (dataSettings.status === 'success') {
+                        this.settings = dataSettings.data.global || {};
+                        this.seo = dataSettings.data.seo || {};
+                        this.mirrors = dataSettings.data.mirrors || [];
+                        
+                        document.title = this.seo.meta_title || 'Chel - Portfolio';
+                        const metaDesc = document.querySelector('meta[name="description"]');
+                        if (metaDesc) metaDesc.setAttribute('content', this.seo.meta_description || '');
+                        const metaKey = document.querySelector('meta[name="keywords"]');
+                        if (metaKey) metaKey.setAttribute('content', this.seo.meta_keywords || '');
+                    }
+
+                    const resContent = await fetch(apiUrl + '?endpoint=content');
+                    const dataContent = await resContent.json();
+                    if (dataContent.status === 'success') {
+                        this.experience = dataContent.data.experience || [];
+                        this.skills = dataContent.data.skills || [];
+                        this.projects = dataContent.data.projects || [];
+                        
+                        this.groupedSkills = {};
+                        this.skills.forEach(s => {
+                            if (!this.groupedSkills[s.category]) this.groupedSkills[s.category] = [];
+                            this.groupedSkills[s.category].push(s);
+                            this.skillNames.push(s.name);
+                        });
+                        
+                        if (this.skillNames.length > 0) {
+                            window.typewriterPhrases = this.skillNames;
+                            this.marqueeItems = [...this.skillNames, ...this.skillNames];
+                        } else {
+                            window.typewriterPhrases = ['Full Stack Developer', 'AI Architect', 'IoT Engineer'];
+                            this.marqueeItems = [...window.typewriterPhrases, ...window.typewriterPhrases];
+                        }
+                    }
+                    this.loaded = true;
+                    setTimeout(() => {
+                        if (window.initScrollReveal) window.initScrollReveal();
+                        if (window.initTypewriter) window.initTypewriter();
+                    }, 50);
+                } catch (err) {
+                    console.error("Failed to fetch data:", err);
+                    this.loaded = true;
+                }
+            },
+            getAssetUrl(path) {
+                if (!path) return 'https://placehold.co/600x400/F4EFE6/5C5650';
+                if (path.startsWith('http')) return path;
+                if (path.startsWith('assets/')) return path;
+                return 'https://chel.qzz.io/uploads/' + path;
+            },
+            getTags(tagsString) {
+                if (!tagsString) return [];
+                try {
+                    return JSON.parse(tagsString);
+                } catch (e) {
+                    return tagsString.split(',').map(t => t.trim());
+                }
+            },
+            openProject(project) {
+                this.activeProject = project;
+                this.simulating = true;
+                this.progress = 0;
+                const int = setInterval(() => {
+                    this.progress += Math.random() * 20;
+                    if (this.progress >= 100) {
+                        this.progress = 100;
+                        this.simulating = false;
+                        clearInterval(int);
+                    }
+                }, 200);
+            },
+            closeProject() { this.activeProject = null; }
+        }
+    }
+</script>
+<script src="assets/js/main.js"></script>
+</body>
+</html>
