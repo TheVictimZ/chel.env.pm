@@ -142,17 +142,22 @@
 
     <!-- About -->
     <section id="about" class="about">
-        <div class="wrapper about__grid">
-            <div class="about__cards reveal">
+        <div class="wrapper">
+            <div class="about__text reveal">
+                <span class="section-label">01 — About</span>
+                <h2 class="section-title">Bridging the physical and digital world</h2>
+                <div class="about__text-content">
+                <div class="about__cards">
+
                 <div class="about__card">
                     <div class="about__card-icon about__card-icon--dev">⚡</div>
-                    <h3>Full Stack</h3>
-                    <p>React, Node, Laravel, Python</p>
+                    <h3>Embedded & IoT</h3>
+                    <p>Arduino, ESP32, Altium</p>
                 </div>
                 <div class="about__card">
-                    <div class="about__card-icon about__card-icon--ai">🧠</div>
-                    <h3>AI &amp; ML</h3>
-                    <p>TensorFlow, PyTorch, LLMs</p>
+                    <div class="about__card-icon about__card-icon--ai">📡</div>
+                    <h3>Hardware & Network</h3>
+                    <p>FPGA, Robotics, Routing</p>
                 </div>
                 <div class="about__location">
                     <img src="https://chel.qzz.io/uploads/world_map.png" alt="World map">
@@ -163,13 +168,13 @@
                         </span>
                     </div>
                 </div>
-            </div>
-
-            <div class="about__text reveal">
-                <span class="section-label">01 — About</span>
-                <h2 class="section-title">Building systems that bridge the physical and digital world</h2>
-                <p>I engineer ecosystems. Whether it's securing a smart home network, optimizing a drone's flight path, or fine-tuning a Large Language Model, I thrive on solving complex, real-world problems.</p>
-                <p>From embedded hardware to cloud-scale AI — my work spans the full technology stack, always with a focus on craft, clarity, and impact.</p>
+            
+                </div>
+                    <p class="about__lead">Electronics Engineering student with hands-on experience in Embedded Systems, Internet of Things (IoT), Robotics, FPGA development, and Full-Stack Software Development through academic and project-based learning activities. Experienced in designing electronic circuits and custom PCBs using Altium Designer, including schematic capture, PCB layout, manual fabrication, and component soldering. Proficient in Arduino and ESP32 programming for automation, monitoring, and control systems, with experience integrating sensors, RFID, GPS, and various communication modules.</p>
+                    <p>Skilled in developing end-to-end hardware and software solutions, including firmware development, web applications, REST API integration, database management using MySQL/phpMyAdmin, and Linux VPS administration. Familiar with web hosting, cloud-based deployments, reverse proxy configuration, server management, and system monitoring. Possess practical knowledge of networking concepts, router technologies, and infrastructure deployment for connected systems.</p>
+                    <p>Successfully contributed to multiple projects including the development of a custom H-Bridge motor driver and sensor module for line follower robots, hydroponic temperature and humidity monitoring systems using ESP32 and web dashboards, RFID-based smart lockers integrated with Tripay Payment Gateway, FPGA-based smart parking systems utilizing RFID and infrared sensors, and GPS-enabled animal tracking platforms featuring geofencing and real-time notifications through Gmail, Telegram, Discord, and WhatsApp.</p>
+                    <p>Demonstrated ability to bridge electronics, embedded programming, networking, and software engineering by delivering complete solutions from hardware design and firmware development to backend services, database systems, and cloud deployment. Passionate about software development, embedded technologies, networking, router systems, self-hosted infrastructure, and continuous learning in emerging technologies related to automation, IoT, and intelligent systems.</p>
+                </div>
             </div>
         </div>
     </section>
@@ -299,225 +304,172 @@
                         </div>
                     </div>
 
-                    <div x-show="!simulating" class="relative bg-slate-900 h-64 sm:h-96 w-full overflow-hidden shrink-0">
-                        <div class="relative z-10 w-full h-full bg-[#0b0c15] text-xs md:text-sm">
+                    <div x-show="!simulating" class="relative bg-slate-900 h-64 sm:h-96 w-full overflow-y-auto shrink-0 custom-scrollbar">
+                        <div class="relative z-10 w-full min-h-full bg-[#0b0c15] text-xs md:text-sm">
 
-                            <template x-if="activeProject && activeProject.simulation_type === 'neural'">
-                                <div class="flex h-full" x-data="{
-                                    input: 'The system performance is exceeding expectations.',
-                                    processing: false,
-                                    metrics: { confidence: 0.98, latency: 45, sentiment: 'POSITIVE', polarity: 0.8 },
-                                    analyze() {
-                                        this.processing = true;
-                                        setTimeout(() => {
-                                            this.processing = false;
-                                            const text = this.input.toLowerCase();
-                                            const neg = ['idiot','stupid','bad','worst','hate','terrible','slow','error','fail','ugly','bugs','glitch'];
-                                            const pos = ['good','great','amazing','love','fast','excellent','best','success','smart','beautiful','perfect'];
-                                            let score = 0;
-                                            text.split(/\s+/).forEach(w => {
-                                                if (neg.some(n => w.includes(n))) score -= 1;
-                                                if (pos.some(p => w.includes(p))) score += 1;
-                                            });
-                                            this.metrics.sentiment = score > 0 ? 'POSITIVE' : (score < 0 ? 'NEGATIVE' : 'NEUTRAL');
-                                            this.metrics.polarity = Math.min(1, Math.max(-1, score / (text.split(/\s+/).length || 1))).toFixed(2);
-                                            this.metrics.confidence = (0.7 + Math.random() * 0.29).toFixed(3);
-                                            this.metrics.latency = Math.floor(20 + Math.random() * 50);
-                                        }, 600);
-                                    }
-                                }">
-                                    <div class="w-1/3 border-r border-white/10 p-4 flex flex-col bg-[#0f111a]">
-                                        <div class="text-slate-500 mb-2 uppercase tracking-wider text-[10px]">Input Stream</div>
-                                        <textarea x-model="input" class="w-full bg-black/50 border border-white/10 rounded p-3 text-slate-300 focus:border-sky-500 outline-none mb-4 font-mono text-xs resize-none h-32"></textarea>
-                                        <button @click="analyze()" class="px-4 py-2 bg-sky-600 hover:bg-sky-500 text-white rounded text-xs font-bold transition flex items-center justify-center gap-2">
-                                            <span x-show="processing" class="animate-spin w-3 h-3 border-2 border-white/30 border-t-white rounded-full"></span>
-                                            ANALYZE_TEXT
-                                        </button>
-                                    </div>
-                                    <div class="w-2/3 p-4 bg-[#0b0c15] relative overflow-hidden flex flex-col">
-                                        <div class="flex justify-between items-center mb-4 border-b border-white/5 pb-2">
-                                            <span class="text-sky-400">Analysis Results</span>
-                                            <span class="text-slate-600 text-[10px]">ID: <span class="text-slate-400" x-text="'REQ-' + Math.floor(Math.random()*9999)"></span></span>
-                                        </div>
-                                        <div class="bg-black/50 rounded p-4 font-mono text-xs text-green-400 mb-4 flex-1 overflow-auto border border-white/5 relative">
-                                            <div x-show="processing" class="absolute inset-0 bg-black/80 flex items-center justify-center z-10">
-                                                <span class="text-sky-500 animate-pulse">Processing...</span>
-                                            </div>
-                                            <pre>{
-  "status": "success",
-  "data": {
-    "sentiment": "<span x-text="metrics.sentiment" :class="metrics.sentiment === 'POSITIVE' ? 'text-green-400' : (metrics.sentiment === 'NEGATIVE' ? 'text-red-400' : 'text-yellow-400')"></span>",
-    "polarity": <span x-text="metrics.polarity"></span>,
-    "confidence": <span x-text="metrics.confidence" class="text-blue-400"></span>,
-    "meta": { "latency_ms": <span x-text="metrics.latency" class="text-purple-400"></span>, "chars": <span x-text="input.length"></span> }
-  }
-}</pre>
-                                        </div>
-                                        <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
-                                            <div class="h-full bg-sky-500 transition-all duration-500" :style="'width: ' + (metrics.confidence * 100) + '%'"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </template>
+                              <div x-show="activeProject && activeProject.simulation_type === 'vulnscan'" class="h-full w-full">
+                                  <div class="flex flex-col h-full bg-[#050505] text-[#0f0] font-mono p-6 relative overflow-hidden">
+                                      <h3 class="text-xl font-bold mb-4 border-b border-[#0f0] pb-2">VulnScan Framework v2.1</h3>
+                                      <div class="flex-1 overflow-y-auto text-xs opacity-80" x-data="{ logs: [] }" x-init="
+                                          setInterval(() => {
+                                              const ip = '192.168.1.' + Math.floor(Math.random() * 255);
+                                              const ports = [22, 80, 443, 3306, 8080];
+                                              const port = ports[Math.floor(Math.random() * ports.length)];
+                                              const isVuln = Math.random() > 0.8;
+                                              const color = isVuln ? 'text-red-500' : 'text-[#0f0]';
+                                              const status = isVuln ? 'VULNERABLE (CVE-2023-XXXX)' : 'SECURE';
+                                              logs.unshift({ msg: '[*] Scanning ' + ip + ':' + port + ' -> ' + status, color: color });
+                                              if (logs.length > 15) logs.pop();
+                                          }, 800)
+                                      ">
+                                          <template x-for="(log, i) in logs" :key="i">
+                                              <div :class="log.color" x-text="log.msg" class="mb-1"></div>
+                                          </template>
+                                      </div>
+                                      <div class="mt-4 pt-4 border-t border-[#0f0] grid grid-cols-2 gap-4 text-center">
+                                          <div><div class="text-[10px]">TARGETS</div><div class="text-xl font-bold">255</div></div>
+                                          <div><div class="text-[10px]">VULNERABILITIES</div><div class="text-xl font-bold text-red-500 animate-pulse">DETECTED</div></div>
+                                      </div>
+                                  </div>
+                              </div>
 
-                            <template x-if="activeProject && activeProject.simulation_type === 'smarthome'">
-                                <div class="flex h-full" x-data="{
-                                    devices: [
-                                        {name:'Living Room',temp:24,pwr:120,state:true,icon:'M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z'},
-                                        {name:'Kitchen',temp:22,pwr:450,state:true,icon:'M13 10V3L4 14h7v7l9-11h-7z'},
-                                        {name:'Master Bedroom',temp:21,pwr:15,state:false,icon:'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6'},
-                                        {name:'Garage',temp:18,pwr:0,state:false,icon:'M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2'}
-                                    ],
-                                    totalPwr: 585
-                                }" x-init="setInterval(() => {
-                                    totalPwr = 0;
-                                    devices.forEach(d => {
-                                        if (d.state) {
-                                            d.pwr = Math.max(0, d.pwr + Math.floor(Math.random() * 10 - 5));
-                                            d.temp = (parseFloat(d.temp) + (Math.random() * 0.2 - 0.1)).toFixed(1);
-                                            totalPwr += d.pwr;
-                                        } else { d.pwr = 0; }
-                                    });
-                                }, 1000)">
-                                    <div class="w-48 bg-[#0f111a] border-r border-white/10 flex flex-col p-4">
-                                        <div class="text-[10px] uppercase text-slate-500 font-bold mb-4">System Status</div>
-                                        <div class="text-3xl font-bold text-white mb-1"><span x-text="totalPwr"></span><span class="text-sm text-slate-400 ml-1">W</span></div>
-                                        <div class="text-xs text-green-400">Currently Consuming</div>
-                                    </div>
-                                    <div class="flex-1 p-6 grid grid-cols-2 gap-4 content-start overflow-auto">
-                                        <template x-for="dev in devices">
-                                            <div @click="dev.state = !dev.state" class="bg-[#1a1c2e] border border-white/5 p-4 rounded-xl cursor-pointer hover:border-sky-500/50 transition">
-                                                <div class="flex justify-between items-start mb-4">
-                                                    <div class="p-2 rounded-lg" :class="dev.state ? 'bg-sky-500 text-white' : 'bg-slate-700 text-slate-400'">
-                                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" :d="dev.icon"></path></svg>
-                                                    </div>
-                                                    <span class="text-xs font-bold" :class="dev.state ? 'text-green-400' : 'text-slate-500'" x-text="dev.state ? 'ONLINE' : 'OFFLINE'"></span>
-                                                </div>
-                                                <h3 class="text-slate-200 font-bold text-sm" x-text="dev.name"></h3>
-                                                <div class="mt-2 text-xs text-slate-500">Temp: <span class="text-slate-300" x-text="dev.temp + '°C'"></span></div>
-                                            </div>
-                                        </template>
-                                    </div>
-                                </div>
-                            </template>
+                              <div x-show="activeProject && activeProject.simulation_type === 'llmagent'" class="h-full w-full">
+                                  <div class="flex flex-col h-full bg-[#0b0c10] text-[#66fcf1] font-sans p-6">
+                                      <h3 class="text-xl font-bold mb-4">Autonomous Agent Brain</h3>
+                                      <div class="flex-1 flex items-center justify-center relative">
+                                          <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-[#45a29e]/20 to-transparent"></div>
+                                          <div class="w-32 h-32 rounded-full border-4 border-[#66fcf1] border-dashed animate-[spin_4s_linear_infinite] flex items-center justify-center">
+                                              <div class="w-24 h-24 rounded-full bg-[#66fcf1]/20 animate-pulse flex items-center justify-center text-xs font-bold text-[#c5c6c7]">
+                                                  REASONING
+                                              </div>
+                                          </div>
+                                      </div>
+                                      <div class="h-24 bg-[#1f2833] rounded-lg p-3 text-xs text-[#c5c6c7] overflow-hidden" x-data="{ state: 'Thinking...' }" x-init="
+                                          const states = ['Analyzing code structure...', 'Generating optimization plan...', 'Executing self-correction...', 'Waiting for user input...'];
+                                          setInterval(() => { state = states[Math.floor(Math.random() * states.length)]; }, 3000)
+                                      ">
+                                          <div class="text-[#66fcf1] mb-1 uppercase text-[10px]">Current Task</div>
+                                          <div x-text="state" class="typewriter-effect"></div>
+                                      </div>
+                                  </div>
+                              </div>
 
-                            <template x-if="activeProject && activeProject.simulation_type === 'drone'">
-                                <div class="w-full h-full relative overflow-hidden bg-black" x-data="{ pitch: 0, roll: 0, alt: 450, spd: 45 }">
-                                    <img src="https://chel.qzz.io/uploads/drone_flight.png" class="absolute inset-0 w-full h-full object-cover opacity-40 grayscale mix-blend-overlay" alt="">
-                                    <div class="absolute inset-0 p-8 flex flex-col justify-between font-mono text-xs text-green-500" x-init="setInterval(() => {
-                                        pitch = (Math.sin(Date.now()/1000)*10).toFixed(1);
-                                        roll = (Math.cos(Date.now()/1500)*5).toFixed(1);
-                                        alt = (450 + Math.sin(Date.now()/500)*2).toFixed(0);
-                                        spd = (45 + Math.random()).toFixed(1);
-                                    }, 100)">
-                                        <div class="flex justify-between">
-                                            <div>SYS: <span class="text-white">NOMINAL</span> · GPS: <span class="text-white">LOCKED</span></div>
-                                            <div>MODE: <span class="text-white">AUTONOMOUS</span></div>
-                                        </div>
-                                        <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
-                                            <div class="w-64 h-px bg-green-500/50" :style="'transform: rotate(' + roll + 'deg) translateY(' + pitch + 'px)'"></div>
-                                            <div class="w-4 h-4 border border-green-500 rounded-full bg-green-500/20 absolute"></div>
-                                        </div>
-                                        <div class="flex justify-between text-white">
-                                            <div><span class="text-green-500 text-[10px]">ALTITUDE</span><div class="text-3xl font-bold"><span x-text="alt"></span>m</div></div>
-                                            <div class="text-right"><span class="text-green-500 text-[10px]">AIRSPEED</span><div class="text-3xl font-bold"><span x-text="spd"></span>kts</div></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </template>
+                              <div x-show="activeProject && activeProject.simulation_type === 'iot'" class="h-full w-full">
+                                  <div class="flex flex-col h-full bg-[#0d1b2a] text-[#e0e1dd] p-6 relative">
+                                      <img src="https://chel.qzz.io/uploads/hydroponic.png" class="absolute inset-0 w-full h-full object-cover opacity-20" alt="">
+                                      <div class="relative z-10 flex flex-col h-full justify-between">
+                                          <h3 class="text-xl font-bold border-b border-[#e0e1dd] pb-2">Hydroponic Sensor Node</h3>
+                                          <div class="grid grid-cols-2 gap-4 mt-auto">
+                                              <div class="bg-white/10 p-4 rounded backdrop-blur-sm">
+                                                  <div class="text-xs text-cyan-300">Water Temp</div>
+                                                  <div class="text-2xl">24.5°C</div>
+                                              </div>
+                                              <div class="bg-white/10 p-4 rounded backdrop-blur-sm">
+                                                  <div class="text-xs text-blue-300">Humidity</div>
+                                                  <div class="text-2xl">68%</div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
 
-                            <template x-if="activeProject && activeProject.simulation_type === 'crypto'">
-                                <div class="flex h-full bg-[#131722] text-[#d1d4dc] font-mono text-[10px]" x-data="{ price: 42150.25, lastPrice: 42150, trades: [] }"
-                                     x-init="setInterval(() => {
-                                        lastPrice = price;
-                                        price = price + (Math.random() - 0.5) * 50;
-                                        trades.unshift({p: price.toFixed(2), v: (Math.random()*2).toFixed(4), t: new Date().toLocaleTimeString(), type: Math.random() > 0.5 ? 'buy' : 'sell'});
-                                        if (trades.length > 5) trades.pop();
-                                     }, 500)">
-                                    <div class="flex-1 flex flex-col border-r border-[#2a2e39]">
-                                        <div class="h-10 border-b border-[#2a2e39] flex items-center px-4 gap-4">
-                                            <span class="font-bold text-white">BTCUSDT</span>
-                                            <span :class="price >= lastPrice ? 'text-green-400' : 'text-red-400'" x-text="price.toFixed(2)"></span>
-                                        </div>
-                                        <div class="flex-1 p-4 flex items-end gap-1">
-                                            <template x-for="i in 24">
-                                                <div class="flex-1 rounded-t" :class="Math.random() > 0.5 ? 'bg-[#0ecb81]' : 'bg-[#f6465d]'" :style="'height:' + (30 + Math.random()*60) + '%'"></div>
-                                            </template>
-                                        </div>
-                                        <div class="h-8 border-t border-[#2a2e39] flex items-center px-2 gap-4 overflow-hidden">
-                                            <template x-for="trade in trades">
-                                                <span :class="trade.type === 'buy' ? 'text-[#0ecb81]' : 'text-[#f6465d]'" x-text="trade.p"></span>
-                                            </template>
-                                        </div>
-                                    </div>
-                                    <div class="w-40 p-2">
-                                        <div class="text-slate-500 mb-2">Order Book</div>
-                                        <template x-for="i in 8">
-                                            <div class="flex justify-between text-[#f6465d] py-0.5"><span x-text="(price + i*5).toFixed(1)"></span><span class="text-slate-500" x-text="(Math.random()*2).toFixed(3)"></span></div>
-                                        </template>
-                                        <div class="text-[#0ecb81] text-center py-1" x-text="price.toFixed(1)"></div>
-                                        <template x-for="i in 8">
-                                            <div class="flex justify-between text-[#0ecb81] py-0.5"><span x-text="(price - i*5).toFixed(1)"></span><span class="text-slate-500" x-text="(Math.random()*2).toFixed(3)"></span></div>
-                                        </template>
-                                    </div>
-                                </div>
-                            </template>
+                              <div x-show="activeProject && activeProject.simulation_type === 'robotics'" class="h-full w-full">
+                                  <div class="flex flex-col items-center justify-center h-full bg-[#111] text-[#0f0] font-mono p-6">
+                                      <h3 class="text-xl font-bold mb-4">Motor Driver Diagnostics</h3>
+                                      <div class="grid grid-cols-2 gap-4 w-full max-w-sm">
+                                          <div class="border border-[#0f0] p-4 rounded text-center">
+                                              <div class="text-xs mb-1">PWM M1</div>
+                                              <div class="text-2xl font-bold" x-data="{ val: 0 }" x-init="setInterval(() => val = Math.floor(Math.random() * 255), 500)" x-text="val"></div>
+                                          </div>
+                                          <div class="border border-[#0f0] p-4 rounded text-center">
+                                              <div class="text-xs mb-1">PWM M2</div>
+                                              <div class="text-2xl font-bold" x-data="{ val: 0 }" x-init="setInterval(() => val = Math.floor(Math.random() * 255), 500)" x-text="val"></div>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
 
-                            <template x-if="activeProject && activeProject.simulation_type === 'cyber'">
-                                <div class="h-full flex flex-col bg-[#050510] relative overflow-hidden" x-data="{ attacks: [], logs: [] }"
-                                     x-init="
-                                        setInterval(() => { attacks.push({x: Math.random()*100, y: Math.random()*100, id: Math.random()}); if (attacks.length > 5) attacks.shift(); }, 800);
-                                        setInterval(() => { logs.push('[' + new Date().toLocaleTimeString() + '] SRC:192.168.1.' + Math.floor(Math.random()*255) + ' > BLOCKED'); if (logs.length > 6) logs.shift(); }, 1200);
-                                     ">
-                                    <div class="absolute inset-0 opacity-20">
-                                        <img src="https://chel.qzz.io/uploads/world_map.png" class="w-full h-full object-cover grayscale invert" alt="">
-                                    </div>
-                                    <template x-for="attack in attacks" :key="attack.id">
-                                        <div class="absolute w-2 h-2 bg-red-500 rounded-full animate-ping" :style="'left:' + attack.x + '%;top:' + attack.y + '%'"></div>
-                                    </template>
-                                    <div class="mt-auto h-32 bg-black/80 border-t border-red-500/30 p-4 font-mono text-xs overflow-hidden">
-                                        <div class="text-red-500 text-[10px] mb-2">LIVE THREAT FEEDS</div>
-                                        <template x-for="log in logs"><div class="text-red-400" x-text="log"></div></template>
-                                    </div>
-                                </div>
-                            </template>
+                              <div x-show="activeProject && activeProject.simulation_type === 'fpga'" class="h-full w-full">
+                                  <div class="flex flex-col h-full bg-[#222] text-[#fca311] font-mono p-6">
+                                      <h3 class="text-lg font-bold border-b border-[#fca311] pb-2 mb-4">FPGA Smart Parking</h3>
+                                      <div class="flex-1 overflow-y-auto text-xs" x-data="{ logs: [] }" x-init="
+                                          setInterval(() => {
+                                              logs.unshift('> SENSOR_IR_' + Math.floor(Math.random()*10) + ': TRIGGERED');
+                                              if (logs.length > 10) logs.pop();
+                                          }, 1500)
+                                      ">
+                                          <template x-for="log in logs">
+                                              <div x-text="log" class="mb-1"></div>
+                                          </template>
+                                      </div>
+                                  </div>
+                              </div>
 
-                            <template x-if="activeProject && activeProject.simulation_type === 'analytics'">
-                                <div class="flex h-full bg-[#0f172a] text-slate-300" x-data="{ users: 12450 }">
-                                    <div class="w-12 border-r border-slate-700 flex flex-col items-center py-4 bg-slate-900">
-                                        <div class="w-8 h-8 rounded bg-blue-500 flex items-center justify-center text-white font-bold text-xs">N</div>
-                                    </div>
-                                    <div class="flex-1 p-6 flex flex-col gap-4">
-                                        <div class="grid grid-cols-3 gap-4">
-                                            <div class="bg-slate-800 rounded-lg p-3">
-                                                <div class="text-[10px] uppercase text-slate-500">Active Users</div>
-                                                <div class="text-2xl text-white font-bold" x-text="users.toLocaleString()"></div>
-                                            </div>
-                                            <div class="bg-slate-800 rounded-lg p-3">
-                                                <div class="text-[10px] uppercase text-slate-500">Data Processed</div>
-                                                <div class="text-2xl text-white font-bold">845<span class="text-sm text-slate-400">TB</span></div>
-                                            </div>
-                                            <div class="bg-slate-800 rounded-lg p-3">
-                                                <div class="text-[10px] uppercase text-slate-500">Server Health</div>
-                                                <div class="flex gap-1 mt-2">
-                                                    <template x-for="i in 5"><div class="flex-1 h-8 rounded bg-green-500/20 border border-green-500/50"></div></template>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="flex-1 bg-slate-800 rounded-lg p-4 flex items-end gap-1">
-                                            <template x-for="i in 20">
-                                                <div class="flex-1 bg-blue-500/50 rounded-t" :style="'height:' + (20 + Math.random()*70) + '%'"></div>
-                                            </template>
-                                        </div>
-                                    </div>
-                                </div>
-                            </template>
+                              <div x-show="activeProject && activeProject.simulation_type === 'fintech'" class="h-full w-full">
+                                  <div class="flex flex-col h-full bg-slate-50 text-slate-900 font-sans relative overflow-hidden">
+                                      <div class="bg-blue-600 text-white p-6 pb-12 rounded-b-[2rem] shadow-lg relative z-10">
+                                          <div class="flex justify-between items-center mb-6">
+                                              <div class="w-8 h-8 rounded-full bg-white/20"></div>
+                                              <div class="text-sm font-bold">My Wallet</div>
+                                              <div class="w-8 h-8 rounded-full bg-white/20"></div>
+                                          </div>
+                                          <div class="text-sm opacity-80">Total Balance</div>
+                                          <div class="text-4xl font-bold mt-1">$12,450.00</div>
+                                      </div>
+                                      <div class="flex-1 px-6 -mt-6 relative z-20">
+                                          <div class="bg-white rounded-xl shadow-sm p-4 mb-4 grid grid-cols-4 gap-4 text-center">
+                                              <div class="flex flex-col items-center"><div class="w-10 h-10 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mb-2">+</div><span class="text-[10px] font-medium">Send</span></div>
+                                              <div class="flex flex-col items-center"><div class="w-10 h-10 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mb-2">-</div><span class="text-[10px] font-medium">Receive</span></div>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
 
-                        </div>
-                    </div>
-                </div>
+                              <div x-show="activeProject && activeProject.simulation_type === 'saas'" class="h-full w-full">
+                                  <div class="flex h-full bg-[#1e1e2d] text-[#b5b5c3] font-sans">
+                                      <div class="w-16 bg-[#151521] border-r border-[#2b2b40] flex flex-col items-center py-4 gap-6">
+                                          <div class="w-8 h-8 bg-[#3699ff] rounded-lg"></div>
+                                          <div class="w-6 h-6 bg-[#2b2b40] rounded-md"></div>
+                                      </div>
+                                      <div class="flex-1 p-6 flex flex-col">
+                                          <h3 class="text-white text-lg font-bold mb-6">Cloud Dashboard</h3>
+                                          <div class="grid grid-cols-2 gap-4">
+                                              <div class="bg-[#1b1b29] rounded-xl p-4 border border-[#2b2b40]">
+                                                  <div class="text-xs font-bold text-[#3699ff] mb-1">API Requests</div>
+                                                  <div class="text-2xl text-white font-bold">45,231</div>
+                                              </div>
+                                              <div class="bg-[#1b1b29] rounded-xl p-4 border border-[#2b2b40]">
+                                                  <div class="text-xs font-bold text-[#1bc5bd] mb-1">Uptime</div>
+                                                  <div class="text-2xl text-white font-bold">99.9%</div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
 
-                <div class="modal__footer" x-show="!simulating">
+                              <div x-show="activeProject && activeProject.simulation_type === 'gps'" class="h-full w-full">
+                                  <div class="flex flex-col h-full bg-slate-900 text-white relative">
+                                      <img src="https://chel.qzz.io/uploads/animal_tracker.png" class="absolute inset-0 w-full h-full object-cover opacity-50 mix-blend-overlay" alt="">
+                                      <div class="absolute inset-0 flex items-center justify-center">
+                                          <div class="w-full h-full p-4 relative">
+                                              <div class="absolute left-1/4 top-1/3 w-3 h-3 bg-red-500 rounded-full shadow-[0_0_10px_red] animate-ping"></div>
+                                              <div class="absolute right-1/3 bottom-1/4 w-3 h-3 bg-green-500 rounded-full shadow-[0_0_10px_green]"></div>
+                                              <div class="absolute left-1/2 top-1/2 w-3 h-3 bg-blue-500 rounded-full shadow-[0_0_10px_blue]"></div>
+                                          </div>
+                                      </div>
+                                      <div class="relative z-10 mt-auto bg-slate-900/90 p-4 border-t border-slate-700 backdrop-blur-md">
+                                          <div class="text-xs font-bold mb-2">Live Tracking</div>
+                                          <div class="flex gap-4">
+                                              <div class="flex items-center gap-2"><div class="w-2 h-2 bg-red-500 rounded-full"></div> Target 1</div>
+                                              <div class="flex items-center gap-2"><div class="w-2 h-2 bg-green-500 rounded-full"></div> Target 2</div>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+
+</div>
+</div>
+<div class="modal__footer" x-show="!simulating">
                     <h2 x-text="activeProject ? activeProject.title : ''"></h2>
                     <div class="modal__tags" x-show="activeProject">
                         <template x-for="tag in (activeProject ? getTags(activeProject.tags) : [])" :key="tag">
@@ -658,7 +610,7 @@
                             window.typewriterPhrases = this.skillNames;
                             this.marqueeItems = [...this.skillNames, ...this.skillNames];
                         } else {
-                            window.typewriterPhrases = ['Full Stack Developer', 'AI Architect', 'IoT Engineer'];
+                            window.typewriterPhrases = ['Embedded Systems Engineer', 'IoT Developer', 'Hardware Designer'];
                             this.marqueeItems = [...window.typewriterPhrases, ...window.typewriterPhrases];
                         }
                     }
@@ -689,6 +641,9 @@
             openProject(project) {
                 this.activeProject = project;
                 this.simulating = true;
+                document.body.style.overflow = 'hidden';
+                const nav = document.querySelector('.nav');
+                if (nav) nav.style.display = 'none';
                 this.progress = 0;
                 const int = setInterval(() => {
                     this.progress += Math.random() * 20;
@@ -699,10 +654,15 @@
                     }
                 }, 200);
             },
-            closeProject() { this.activeProject = null; }
+            closeProject() { 
+                this.activeProject = null; 
+                document.body.style.overflow = '';
+                const nav = document.querySelector('.nav');
+                if (nav) nav.style.display = '';
+            }
         }
     }
 </script>
-<script src="assets/js/main.js?v=2"></script>
+<script src="assets/js/main.js"></script>
 </body>
 </html>
